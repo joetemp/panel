@@ -1,0 +1,42 @@
+#!/bin/bash
+
+num_mon=$(bspc query -M | wc -l)
+ 
+while read -r line; do
+ 
+    case $line in
+ 
+        W*)
+            wm_infos=""
+            IFS=':'
+            set -- ${line#?}
+            while [ $# -gt 0 ];do
+                item=$1     
+                name=${item#?}
+                case $item in
+ 
+                    O*)
+                        # focused occupied desktop
+                        wm_infos="${wm_infos}%{F#9400D3}%{B#27408B}%{U#9AC0CD}%{+u} ${name} %{-u}%{B-}%{F-}"
+                    ;;
+
+                    F*)
+                        # focused free desktop
+                        wm_infos="${wm_infos}%{F#00F5FF}%{B#7FFFD4}%{U#00FF00}%{+u} ${name} %{-u}%{B-}%{F-}"
+                    ;;
+
+                    f*)
+                        # free desktop
+                        wm_infos="${wm_infos}%{F#ADFF2F}%{B#8B8B00} ${name} %{B-}%{F-}"
+                    ;;
+                esac 
+                shift
+            done    
+            ;; 
+    esac     
+
+    printf "%s\n" "%{c}${wm_infos}"
+
+done < <(\
+    bspc subscribe & \
+) | lemonbar -g 1920x18+1920+0 -p -B "#000" 
