@@ -1,22 +1,21 @@
 #!/bin/bash
 
 num_mon=$(bspc query -M | wc -l)
+icons=" a : b : c : d : e : f : g : h : i "
+icons=(${icons//:/}) 
  
 while read -r line; do
  
     case $line in
  
         W*)
-            icons=" a : b : c : d : e : f : g : h : i " 
-            icons=(${icons//:/ }) 
-
             wm_infos=""
             IFS=':'
             set -- ${line#?}
             while [ $# -gt 0 ];do
                 item=$1     
-                name=${item#?}
-                icon=${icons[$x]}
+                #name=${item#?}
+                name=${icons[$x]}
                 case $item in
  
                     O*)
