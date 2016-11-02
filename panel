@@ -7,12 +7,16 @@ while read -r line; do
     case $line in
  
         W*)
+            icons=" a : b : c : d : e : f : g : h : i " 
+            icons=(${icons//:/ }) 
+
             wm_infos=""
             IFS=':'
             set -- ${line#?}
             while [ $# -gt 0 ];do
                 item=$1     
                 name=${item#?}
+                icon=${icons[$x]}
                 case $item in
  
                     O*)
