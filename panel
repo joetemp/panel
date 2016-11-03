@@ -29,14 +29,26 @@ while read -r line; do
                         # free desktop
                         wm_infos="${wm_infos}%{F#ADFF2F}%{B#8B8B00} ${name} %{B-}%{F-}"
                     ;;
+                        
                 esac 
                 shift
             done    
             ;; 
+
+            #Conky
+
+            c*) 
+                cpu=$(cut -c 2- <<< "$line")
+            ;;
+
+            r*)
+                ram=$(cut -c 2- <<< "$line")	
+            ;; 
     esac     
 
-    printf "%s\n" "%{l}${wm_infos}"
+    printf "%s\n" "%{l}${wm_infos}%{c}${cpu}${ram}"
 
 done < <(\
     bspc subscribe & \
-) | lemonbar -g 1920x18+1920+0 -p -B "#000" -f FontAwesome-12 
+    conky -c /home/joe/.config/conky/cpu.conf
+) | lemonbar -g 1920x18+1920+0 -p -B "#000" -f FontAwesome-12 -f Roboto-10 
