@@ -1,8 +1,6 @@
 #!/bin/bash
 
 num_mon=$(bspc query -M | wc -l)
-icons=" a : b : c : d : e : f : g : h : i "
-icons=(${icons//:/}) 
  
 while read -r line; do
  
@@ -14,8 +12,7 @@ while read -r line; do
             set -- ${line#?}
             while [ $# -gt 0 ];do
                 item=$1     
-                #name=${item#?}
-                name=${icons[$x]}
+                name=${item#?}
                 case $item in
  
                     O*)
@@ -38,9 +35,8 @@ while read -r line; do
             ;; 
     esac     
 
-    printf "%s\n" "%{c}${wm_infos}"
+    printf "%s\n" "%{l}${wm_infos}"
 
 done < <(\
     bspc subscribe & \
-) | lemonbar -g 1920x18+1920+0 -p -B "#000"
-
+) | lemonbar -g 1920x18+1920+0 -p -B "#000" -f FontAwesome-12 
