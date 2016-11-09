@@ -1,6 +1,7 @@
 #!/bin/bash
 
 bar_color="#252527"
+active_bar_color="#333A44"
 text_color="#A0A4AF"
 empty="#5a5d5d"
 COLOR_ACTIVE_MONITOR_BG="#333A44"
@@ -32,7 +33,7 @@ while read -r line; do
                     O*)
                         if [ $active_monitor -eq 1 ]; then
                             # focused desktop and focused monitor
-                            wm_infos="${wm_infos}%{F#FF6666}%{B$bar_color}     ${name}     %{B-}%{F-}"
+                            wm_infos="${wm_infos}%{F$COLOR_FOCUSED_OCCUPIED_FG}%{B$active_bar_color}%{U$COLOR_FOCUSED_OCCUPIED_FG}%{+u}     ${name}     %{-u}%{B-}%{F-}"
 
                         else
                             # focused desktop and non-focused monitor
@@ -41,6 +42,10 @@ while read -r line; do
                         fi
                         # focused occupied desktop
                         # wm_infos="${wm_infos}%{F$COLOR_FOCUSED_OCCUPIED_FG}%{B$bar_color}     ${name}     %{B-}%{F-}"
+                    ;;
+
+                    o*) 
+                        wm_infos="${wm_infos}%{F$COLOR_FOCUSED_OCCUPIED_FG}%{B$bar_color}     ${name}     %{B-}%{F-}"
                     ;;
 
                     F*)
