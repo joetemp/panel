@@ -19,17 +19,17 @@ while read -r line; do
  
                     O*)
                         # focused occupied desktop
-                        wm_infos="${wm_infos}%{F#9400D3}%{B#27408B}%{U#9AC0CD}%{+u} ${name} %{-u}%{B-}%{F-}"
+                        wm_infos="${wm_infos}%{F#9400D3}%{B#27408B}%{U#9AC0CD}%{+u}     ${name}     %{-u}%{B-}%{F-}"
                     ;;
 
                     F*)
                         # focused free desktop
-                        wm_infos="${wm_infos}%{F#00F5FF}%{B#7FFFD4}%{U#00FF00}%{+u} ${name} %{-u}%{B-}%{F-}"
+                        wm_infos="${wm_infos}%{F#00F5FF}%{B#7FFFD4}%{U#00FF00}%{+u}     ${name}     %{-u}%{B-}%{F-}"
                     ;;
 
                     f*)
                         # free desktop
-                        wm_infos="${wm_infos}%{F#ADFF2F}%{B#8B8B00} ${name} %{B-}%{F-}"
+                        wm_infos="${wm_infos}%{F#ADFF2F}%{B#8B8B00}     ${name}     %{B-}%{F-}"
                     ;;
                         
                 esac 
@@ -63,15 +63,35 @@ while read -r line; do
                 song=$(cut -c 2- <<< "$line")
             ;;
 
+            i*)
+                download=$(cut -c 2- <<< "$line")
+            ;; 
+
+            I*)
+                upload=$(cut -c 2- <<< "$line")
+            ;;
+
+            T*)
+                time=$(cut -c 2- <<< "$line")
+            ;;
+
+            D*)
+                date=$(cut -c 2- <<< "$line")
+            ;;  
+
 
     esac     
 
-    printf "%s\n" "%{l}${wm_infos} %{c}${song} %{r}${micro}  ${cpu}${ram}${therm}  ${temp}${folder}  ${root}${home}"
+    printf "%s\n" "%{l}${wm_infos} %{c}${song} %{r}${download}        ${upload}        ${micro}        ${cpu}        ${temp}        ${folder}        ${root}        ${date}        ${time}"
 
 done < <(\
     bspc subscribe & \
     conky -c /home/joe/.config/conky/cpu.conf & \
     conky -c /home/joe/.config/conky/temp.conf & \
     conky -c /home/joe/.config/conky/root.conf & \
-    conky -c /home/joe/.config/conky/song.conf
-) | lemonbar -g 1920x18+1920+0 -p -B "#000" -f FontAwesome-11 -f Roboto-10 
+    conky -c /home/joe/.config/conky/song.conf & \
+    conky -c /home/joe/.config/conky/speedtest-down.conf & \
+    conky -c /home/joe/.config/conky/speedtest-up.conf & \
+    conky -c /home/joe/.config/conky/time.conf &\
+    conky -c /home/joe/.config/conky/date.conf 
+) | lemonbar -g 1920x22+1920+0 -p -B "#000" -f FontAwesome-11 -f Roboto-10 
