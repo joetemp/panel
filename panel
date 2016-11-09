@@ -1,5 +1,13 @@
 #!/bin/bash
 
+bar_color="#252527"
+text_color="#A0A4AF"
+empty="#5a5d5d"
+COLOR_ACTIVE_MONITOR_BG="#333A44"
+COLOR_ACTIVE_MONITOR_FG="#F9FFFF"
+COLOR_FOCUSED_OCCUPIED_FG="#A09BA1"
+
+
 num_mon=$(bspc query -M | wc -l)
  
 while read -r line; do
@@ -16,10 +24,10 @@ while read -r line; do
                 item=$1     
                 name=${item#?}
                 case $item in
- 
+
                     O*)
                         # focused occupied desktop
-                        wm_infos="${wm_infos}%{F#9400D3}%{B#27408B}%{U#9AC0CD}%{+u}     ${name}     %{-u}%{B-}%{F-}"
+                        wm_infos="${wm_infos}%{F$COLOR_FOCUSED_OCCUPIED_FG}%{B$bar_color}     ${name}     %{B-}%{F-}"
                     ;;
 
                     F*)
@@ -29,7 +37,7 @@ while read -r line; do
 
                     f*)
                         # free desktop
-                        wm_infos="${wm_infos}%{F#ADFF2F}%{B#8B8B00}     ${name}     %{B-}%{F-}"
+                        wm_infos="${wm_infos}%{F$empty}%{B$bar_color}     ${name}     %{B-}%{F-}"
                     ;;
                         
                 esac 
@@ -60,7 +68,8 @@ while read -r line; do
             ;;
 
             y*)
-                song=$(cut -c 2- <<< "$line")
+                #song=$(cut -c 2- <<< "$line")
+                song="%{B#414E5E}   ${line#?}  %{B-}"
             ;;
 
             i*)
@@ -94,4 +103,4 @@ done < <(\
     conky -c /home/joe/.config/conky/speedtest-up.conf & \
     conky -c /home/joe/.config/conky/time.conf &\
     conky -c /home/joe/.config/conky/date.conf 
-) | lemonbar -g 1920x22+1920+0 -p -B "#000" -f FontAwesome-11 -f Roboto-10 
+) | lemonbar -g 1920x22+1920+0 -p -B $bar_color -f FontAwesome-11 -f Roboto-10 -F $text_color
