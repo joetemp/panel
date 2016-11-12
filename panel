@@ -98,6 +98,10 @@ while read -r line; do
                 upload=$(cut -c 2- <<< "$line")
             ;;
 
+            v*)
+                volume=$(cut -c 2- <<< "$line")
+            ;;
+
             T*)
                 time=$(cut -c 2- <<< "$line")
             ;;
@@ -109,7 +113,7 @@ while read -r line; do
 
     esac     
 
-    printf "%s\n" "%{l}${wm_infos} %{c}${song} %{r}${download}        ${upload}        ${micro}        ${cpu}        ${temp}        ${folder}        ${root}        ${date}        ${time}"
+    printf "%s\n" "%{l}${wm_infos} %{c}${song} %{r}${download}        ${upload}        ${micro}        ${cpu}        ${temp}        ${folder}        ${root}        ${volume}        ${date}        ${time}"
 
 done < <(\
     bspc subscribe & \
@@ -119,6 +123,7 @@ done < <(\
     conky -c /home/joe/.config/conky/song.conf & \
     conky -c /home/joe/.config/conky/speedtest-down.conf & \
     conky -c /home/joe/.config/conky/speedtest-up.conf & \
-    conky -c /home/joe/.config/conky/time.conf &\
-    conky -c /home/joe/.config/conky/date.conf 
+    conky -c /home/joe/.config/conky/time.conf & \
+    conky -c /home/joe/.config/conky/date.conf & \
+    conky -c /home/joe/.config/conky/volume.conf
 ) | lemonbar -g 1920x22+1920+0 -p -B $bar_color -f FontAwesome-11 -f Roboto-10 -F $text_color
